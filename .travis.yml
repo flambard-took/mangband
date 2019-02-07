@@ -11,21 +11,20 @@ compiler:
 matrix:
    include:
       # linux, ncurses
-      - os: linux
-        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --disable-sdl" SDL=0
+      - env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --disable-sdl" SDL=0 ONLIN=1
       # linux, ncurses + x11
-      - os: linux
-        env: CONFIGURE_FLAGS="--enable-gcu --enable-x11 --disable-sdl" SDL=0
+      - env: CONFIGURE_FLAGS="--enable-gcu --enable-x11 --disable-sdl" SDL=0 ONLIN=1
       # linux, ncurses + sdl
-      - os: linux
-        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1
+      - env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1 ONLIN=1
       ## osx, carbon
       #- os: osx
-      #  env: CONFIGURE_FLAGS="--disable-gcu --disable-x11 --disable-sdl" SDL=0
+      #  env: CONFIGURE_FLAGS="--disable-gcu --disable-x11 --disable-sdl" SDL=0 ONLIN=0
       # osx, sdl
+      - osx_image: xcode6.4
+        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl --disable-crb" SDL=1 ONLIN=0
+   exclude:
       - os: osx
-        osx_image: xcode6.4
-        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1
+        env: ONLIN=1
 
 env:
 #  matrix:
