@@ -2,35 +2,36 @@ language: c
 
 os:
   - linux
-#  - osx
+  - osx
 
 compiler:
   - gcc
   - clang
 
-#matrix:
-# include:
-#      # linux, ncurses
-#      - os: linux
-#        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --disable-sdl" SDL=0
-#      # linux, ncurses + x11
-#      - os: linux
-#        env: CONFIGURE_FLAGS="--enable-gcu --enable-x11 --disable-sdl" SDL=0
-#      # linux, ncurses + sdl
-#      - os: linux
-#        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1
-#      # osx, carbon
-#      - os: osx
-#        env: CONFIGURE_FLAGS="--disable-gcu --disable-x11 --disable-sdl" SDL=0
-#        # osx, sdl
-#      - os: osx
-#        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1
+matrix:
+   include:
+      # linux, ncurses
+      - os: linux
+        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --disable-sdl" SDL=0
+      # linux, ncurses + x11
+      - os: linux
+        env: CONFIGURE_FLAGS="--enable-gcu --enable-x11 --disable-sdl" SDL=0
+      # linux, ncurses + sdl
+      - os: linux
+        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1
+      ## osx, carbon
+      #- os: osx
+      #  env: CONFIGURE_FLAGS="--disable-gcu --disable-x11 --disable-sdl" SDL=0
+      # osx, sdl
+      - os: osx
+        osx_image: xcode6.4
+        env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl" SDL=1
 
 env:
-  matrix:
-    - CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl"
-    - CONFIGURE_FLAGS="--with-gcu --with-x11    --without-sdl"
-    - CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl"
+#  matrix:
+#    - CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl"
+#    - CONFIGURE_FLAGS="--with-gcu --with-x11    --without-sdl"
+#    - CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl"
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
@@ -49,9 +50,10 @@ addons:
     build_command: "make"
     branch_pattern: coverity_scan
 
-#travis-ci currently doesnt support osx
-#before_install:
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew update     ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew install sdl; fi
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew update     ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew install sdl; fi
 
-script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
+script:
+  - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/dmgit.sh ; fi
