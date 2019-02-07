@@ -63,4 +63,4 @@ deploy:
   github-token: $GITHUB_TOKEN
   on:
     branch: master
-    condition: $TRAVIS_OS_NAME == "osx" -a $CC == "gcc"
+    condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
