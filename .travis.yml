@@ -23,7 +23,7 @@ matrix:
       - osx_image: xcode6.4
         env: CONFIGURE_FLAGS="--enable-gcu --disable-x11 --enable-sdl --disable-crb" SDL=1 ONLIN=0
    exclude:
-      - os: osx
+      - osx_image: xcode6.4
         env: ONLIN=1
 
 env:
