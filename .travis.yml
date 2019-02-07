@@ -34,6 +34,10 @@ addons:
   apt:
     packages:
     - libsdl1.2-dev
+  homebrew:
+    packages:
+    - sdl
+    update: false
   coverity_scan:
     project:
       name: "mangband/mangband"
@@ -43,16 +47,16 @@ addons:
     build_command: "make"
     branch_pattern: coverity_scan
 
-before_install:
+#before_install:
 #  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew update     ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew install sdl; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$SDL" == "1" ]]; then brew install sdl; fi
 
 script:
   - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/dmgit.sh ; fi
 
 before_deploy:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "Hello" > index.html ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
 
 deploy:
   provider: pages
