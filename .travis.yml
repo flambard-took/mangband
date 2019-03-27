@@ -10,9 +10,9 @@ compiler:
 
 env:
   matrix:
-    - CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl" SDL="0"
-    - CONFIGURE_FLAGS="--with-gcu --with-x11    --without-sdl" SDL="0"
-    - CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl" SDL="1"
+    - CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl" SDL="0" DEB="gcu"
+    - CONFIGURE_FLAGS="--with-gcu --with-x11    --without-sdl" SDL="0" DEB="x11"
+    - CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl" SDL="1" DEB="sdl"
     - CONFIGURE_FLAGS="--without-gcu --without-x11 --without-crb --with-sdl" SDL="1"
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -54,17 +54,38 @@ addons:
 script:
   - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/dmgit.sh && ./dist/dmg/dmgserv.sh ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd dist/deb && ./debit.sh ${DEB} ${TRAVIS_BRANCH} ; fi
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
 
 deploy:
-  provider: pages
-  skip-cleanup: true
-  keep-history: false
-  repo: mangband/mangband-builds-osx
-  branch: gh-pages
-  github-token: $GITHUB_TOKEN
-  on:
-    branch: develop
-    condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+  - provider: pages
+    skip-cleanup: true
+    keep-history: false
+    repo: mangband/mangband-builds-osx
+    branch: gh-pages
+    github-token: $GITHUB_TOKEN
+    on:
+      branch: develop
+      condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+  - provider: releases
+    github-token: $GITHUB_TOKEN
+    skip-cleanup: true
+    keep-history: false
+    repo: mangband/mangband-builds-osx
+    on:
+      tags: true
+      branch: master
+      condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+  - provider: releases
+    skip-cleanup: true
+    keep-history: false
+    repo: mangband/mangband-builds-linux
+    condition: $DEB != ""
+    on:
+      tags: true
+      - branch: develop
+      - branch: master
+    file_glob: true
+    file: dist/deb/*.deb
