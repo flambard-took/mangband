@@ -70,19 +70,11 @@ deploy:
       branch: develop
       condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
   - provider: releases
-    github-token: $GITHUB_TOKEN
+    api_key: $GITHUB_TOKEN
     skip-cleanup: true
     keep-history: false
-    repo: mangband/mangband-builds-osx
-    on:
-      tags: true
-      branch: master
-      condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
-  - provider: releases
-    skip-cleanup: true
-    keep-history: false
-    repo: mangband/mangband-builds-linux
-#    condition: $DEB != ""
+#    repo: mangband/mangband-builds-linux
+    condition: $DEB != ""
     on:
       tags: true
       - branch: develop
