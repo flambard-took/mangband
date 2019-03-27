@@ -82,7 +82,7 @@ deploy:
     skip-cleanup: true
     keep-history: false
     repo: mangband/mangband-builds-linux
-    condition: $DEB != ""
+#    condition: $DEB != ""
     on:
       tags: true
       - branch: develop
