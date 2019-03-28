@@ -45,6 +45,8 @@ matrix:
       compiler: clang
       env: DOCKER_BUILD="1"
   allow_failures:
+    - os: linux
+      compiler: gcc
       env: DOCKER_BUILD="1"
 
 addons:
@@ -71,7 +73,7 @@ addons:
 script:
   - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/dmgit.sh && ./dist/dmg/dmgserv.sh ; fi
-  - if [[ "$DOCKER_BUILD" == "1" ]] && [[ "$TRAVIS_TAG" == "" ]]; then exit 1 ; fi
+  - if [[ "$DOCKER_BUILD" == "1" ]] && [[ "$TRAVIS_TAG" == "" ]]; then echo "ABORTING!" && exit 1 ; fi
   - if [[ "$DOCKER_BUILD" == "1" ]]; then cd dist/docker && ./build.sh --flat ; fi
 
 before_deploy:
