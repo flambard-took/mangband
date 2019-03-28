@@ -38,6 +38,10 @@ matrix:
       env: CONFIGURE_FLAGS="--with-gcu --with-x11    --without-sdl" SDL="0"
     - os: osx
       env: CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl" SDL="1"
+    - os: osx
+      env: BUILD_TYPE="ci"
+    - os: linux
+      env: BUILD_TYPE="ci"
 
 addons:
   apt:
