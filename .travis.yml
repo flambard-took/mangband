@@ -8,14 +8,14 @@ compiler:
   - gcc
   - clang
 
-jobs:
-  include:
-    - stage: release
-      if: tag is PRESENT
-      env: BUILD_TYPE="release"
-    - stage: ci
-      if: NOT tag is PRESENT
-      env: BUILD_TYPE="ci"
+#jobs:
+# include:
+#    - stage: release
+#      if: tag is PRESENT
+#      env: BUILD_TYPE="release"
+#    - stage: ci
+#      if: NOT tag is PRESENT
+#      env: BUILD_TYPE="ci"
 
 env:
   matrix:
@@ -39,9 +39,9 @@ matrix:
     - os: osx
       env: CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl" SDL="1"
     - os: osx
-      env: BUILD_TYPE="ci"
+      if: NOT tag is PRESENT
     - os: linux
-      env: BUILD_TYPE="ci"
+      if: NOT tag is PRESENT
 
 addons:
   apt:
