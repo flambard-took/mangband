@@ -87,6 +87,7 @@ deploy:
     on:
       branch: develop
       condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+
   - provider: releases
     skip-cleanup: true
     keep-history: false
@@ -96,3 +97,13 @@ deploy:
     on:
       tags: true
       condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+
+  - provider: releases
+    skip-cleanup: true
+    keep-history: false
+    api_key: $GITHUB_TOKEN
+    file_glob: true
+    file: dist/docker/flat/*
+    on:
+      tags: true
+      condition: $DOCKER_BUILD == "1"
