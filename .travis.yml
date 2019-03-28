@@ -8,6 +8,15 @@ compiler:
   - gcc
   - clang
 
+jobs:
+  include:
+    - stage: release
+      if: tag is PRESENT
+      env: BUILD_TYPE="release"
+    - stage: ci
+      if: NOT tag is PRESENT
+      env: BUILD_TYPE="ci"
+
 env:
   matrix:
     - CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl" SDL="0"
@@ -54,17 +63,27 @@ addons:
 script:
   - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/dmgit.sh && ./dist/dmg/dmgserv.sh ; fi
+  - if [[ "$BUILD_TYPE" == "release" ]]; then cd dist/docker && ./build.sh --flat ; fi
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
 
 deploy:
-  provider: pages
-  skip-cleanup: true
-  keep-history: false
-  repo: mangband/mangband-builds-osx
-  branch: gh-pages
-  github-token: $GITHUB_TOKEN
-  on:
-    branch: develop
-    condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+  - provider: pages
+    skip-cleanup: true
+    keep-history: false
+    repo: mangband/mangband-builds-osx
+    branch: gh-pages
+    github-token: $GITHUB_TOKEN
+    on:
+      branch: develop
+      condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+  - provider: releases
+    skip-cleanup: true
+    keep-history: false
+    api_key: $GITHUB_TOKEN
+    file_glob: true
+    file: dist/dmg/*.dmg
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
