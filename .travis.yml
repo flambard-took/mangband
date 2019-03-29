@@ -74,7 +74,7 @@ deploy:
     keep-history: false
     api_key: $GITHUB_TOKEN
     file_glob: true
-    file: *.dmg
+    file: ./*.dmg
     on:
       tags: true
       condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
