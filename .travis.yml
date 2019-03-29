@@ -8,15 +8,6 @@ compiler:
   - gcc
   - clang
 
-#jobs:
-# include:
-#    - stage: release
-#      if: tag is PRESENT
-#      env: BUILD_TYPE="release"
-#    - stage: ci
-#      if: NOT tag is PRESENT
-#      env: BUILD_TYPE="ci"
-
 env:
   matrix:
     - CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl" SDL="0"
@@ -39,15 +30,6 @@ matrix:
       env: CONFIGURE_FLAGS="--with-gcu --with-x11    --without-sdl" SDL="0"
     - os: osx
       env: CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl" SDL="1"
-    - os: osx
-      env: DOCKER_BUILD="1"
-    - os: linux
-      compiler: clang
-      env: DOCKER_BUILD="1"
-  allow_failures:
-    - os: linux
-      compiler: gcc
-      env: DOCKER_BUILD="1"
 
 addons:
   apt:
@@ -73,8 +55,6 @@ addons:
 script:
   - if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then ./autogen.sh -n && ./configure ${CONFIGURE_FLAGS} && make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/dmgit.sh && ./dist/dmg/dmgserv.sh ; fi
-  - if [[ "$DOCKER_BUILD" == "1" ]] && [[ "$TRAVIS_TAG" == "" ]]; then echo "ABORTING!" && exit 1 ; fi
-  - if [[ "$DOCKER_BUILD" == "1" ]]; then cd dist/docker && ./build.sh --flat ; fi
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
@@ -99,13 +79,3 @@ deploy:
     on:
       tags: true
       condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
-
-  - provider: releases
-    skip-cleanup: true
-    keep-history: false
-    api_key: $GITHUB_TOKEN
-    file_glob: true
-    file: dist/docker/flat/*
-    on:
-      tags: true
-      condition: $DOCKER_BUILD == "1"
