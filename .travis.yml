@@ -60,6 +60,8 @@ matrix:
         - ln -s mangclient/src/main/assets/lib ../../lib
       script:
         - ./gradlew build connectedCheck assembleDebug assembleRelease
+        - pwd
+        - find ./
     - language: objective-c
       os: osx
       osx_image: xcode8.3
@@ -105,7 +107,7 @@ script:
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
-  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then ../../build/asgradle/.travis-gh.sh > index.html ; fi
+  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; cd ../../ ; ./build/asgradle/.travis-gh.sh > index.html ; fi
 
 deploy:
   - provider: pages
