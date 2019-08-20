@@ -41,6 +41,7 @@ matrix:
     - language: android
       dist: trusty
       jdk: oraclejdk8
+      env: BUILDING_FOR_ANDROID="YES" SDL="2"
       android:
         components:
           - tools
@@ -58,6 +59,7 @@ matrix:
         - ln -s app/src/main/assets/lib ../../lib
       script:
         - ./gradlew build connectedCheck assembleDebug assembleRelease
+        - find app/build/outputs
     - language: objective-c
       os: osx
       osx_image: xcode8.3
