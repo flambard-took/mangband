@@ -111,7 +111,7 @@ script:
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
-  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; ./.travis-gh.sh > ../../index.html ; fi
+  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then ./.travis-gh.sh > ../../index.html ; fi
 
 deploy:
   - provider: pages
