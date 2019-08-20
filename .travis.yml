@@ -105,6 +105,7 @@ script:
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
+  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then ./build/asgradle/.travis-gh.sh > index.html ; fi
 
 deploy:
   - provider: pages
@@ -125,7 +126,7 @@ deploy:
     github-token: $GITHUB_TOKEN
     on:
       branch: develop
-      condition: BUILDING_FOR_ANDROID == "YES"
+      condition: $BUILDING_FOR_ANDROID == "YES"
 
   - provider: releases
     skip-cleanup: true
