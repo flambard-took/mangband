@@ -50,7 +50,7 @@ matrix:
         - cd build/asgradle
         - wget https://libsdl.org/release/SDL2-2.0.10.tar.gz
         - tar -xzf SDL2-2.0.10.tar.gz
-        - cp -r SDL-2.0.10/android-project/gradle .
+        - cp -r SDL2-2.0.10/android-project/gradle .
         - mv SDL2-2.0.10 app/jni/SDL2
         - ln -s app/src/main/assets/lib ../../lib
       script:
