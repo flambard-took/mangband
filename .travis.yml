@@ -57,14 +57,13 @@ matrix:
         - tar -xzf SDL2-${SDL_VERSION}.tar.gz
         - cp -r SDL2-${SDL_VERSION}/android-project/gradle .
         - mv SDL2-${SDL_VERSION} mangclient/jni/SDL2
-        - ln -s mangclient/src/main/assets/lib ../../lib
+        - ln -s ../../lib mangclient/src/main/assets/lib
       script:
         - ./gradlew build connectedCheck assembleDebug assembleRelease
       before_deploy:
-        - rm -rf mangclient/build/intermediates
-        - rm -rf mangclient/jni/SDL2
         - cp mangclient/build/outputs/apk/debug/mangclient-debug.apk ../../.
         - cp mangclient/build/outputs/apk/release/mangclient-release-unsigned.apk ../../.
+        - rm -rf mangclient # kill temp files
         - ./.travis-gh.sh > ../../index.html
 
     - language: objective-c
