@@ -57,7 +57,7 @@ matrix:
         - tar -xzf SDL2-${SDL_VERSION}.tar.gz
         - cp -r SDL2-${SDL_VERSION}/android-project/gradle .
         - mv SDL2-${SDL_VERSION} mangclient/jni/SDL2
-        - ln -s ../../lib mangclient/src/main/assets/lib
+        - ln -s ../../../../../../lib mangclient/src/main/assets/lib
       script:
         - ./gradlew build connectedCheck assembleDebug assembleRelease
       before_deploy:
