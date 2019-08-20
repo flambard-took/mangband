@@ -63,8 +63,9 @@ matrix:
       before_deploy:
         - rm -rf mangclient/build/intermediates
         - rm -rf mangclient/jni/SDL2
-        - pwd
-        - find ./
+        - cp mangclient/build/outputs/apk/debug/mangclient-debug.apk ../../.
+        - cp mangclient/build/outputs/apk/release/mangclient-release-unsigned.apk ../../.
+        - ./.travis-gh.sh > ../../index.html
 
     - language: objective-c
       os: osx
@@ -111,7 +112,7 @@ script:
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
-  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then ./.travis-gh.sh > ../../index.html ; fi
+#  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then ./.travis-gh.sh > ../../index.html ; fi
 
 deploy:
   - provider: pages
