@@ -60,7 +60,6 @@ matrix:
         - ln -s mangclient/src/main/assets/lib ../../lib
       script:
         - ./gradlew build connectedCheck assembleDebug assembleRelease
-        - find app/build/outputs
     - language: objective-c
       os: osx
       osx_image: xcode8.3
