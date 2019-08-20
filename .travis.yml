@@ -51,12 +51,13 @@ matrix:
         - echo y | sdkmanager "ndk-bundle"
       before_script:
         - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
+        - export SDL_VERSION="2.0.10"
         - cd build/asgradle
-        - wget https://libsdl.org/release/SDL2-2.0.10.tar.gz
-        - tar -xzf SDL2-2.0.10.tar.gz
-        - cp -r SDL2-2.0.10/android-project/gradle .
-        - mv SDL2-2.0.10 app/jni/SDL2
-        - ln -s app/src/main/assets/lib ../../lib
+        - wget https://libsdl.org/release/SDL2-${SDL_VERSION}.tar.gz
+        - tar -xzf SDL2-${SDL_VERSION}.tar.gz
+        - cp -r SDL2-${SDL_VERSION}/android-project/gradle .
+        - mv SDL2-${SDL_VERSION} mangclient/jni/SDL2
+        - ln -s mangclient/src/main/assets/lib ../../lib
       script:
         - ./gradlew build connectedCheck assembleDebug assembleRelease
         - find app/build/outputs
@@ -116,6 +117,16 @@ deploy:
     on:
       branch: develop
       condition: $TRAVIS_OS_NAME == "osx") && ($CC == "gcc"
+
+  - provider: pages
+    skip-cleanup: true
+    keep-history: false
+    repo: mangband/mangband-builds-android
+    branch: gh-pages
+    github-token: $GITHUB_TOKEN
+    on:
+      branch: develop
+      condition: BUILDING_FOR_ANDROID == "YES"
 
   - provider: releases
     skip-cleanup: true
