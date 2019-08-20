@@ -48,6 +48,10 @@ matrix:
           - build-tools-25.0.3
       before_script:
         - cd build/asgradle
+          wget https://libsdl.org/release/SDL2-2.0.10.tar.gz
+          tar -xzf SDL2-2.0.10.tar.gz
+          mv SDL2-2.0.10 app/jni/SDL2
+          ln -s app/src/main/assets/lib ../../lib
       script:
         - ./gradlew build connectedCheck
     - language: objective-c
