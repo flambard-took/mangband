@@ -107,7 +107,8 @@ script:
 
 before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./dist/dmg/.travis-gh.sh > index.html ; fi
-  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; cd ../../ & ./build/asgradle/.travis-gh.sh > index.html ; fi
+  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then rm -rf mangclient/build/intermediates ; fi
+  - if [[ "$BUILDING_FOR_ANDROID" == "YES" ]]; then cd ../../ & ./build/asgradle/.travis-gh.sh > index.html ; fi
 
 deploy:
   - provider: pages
