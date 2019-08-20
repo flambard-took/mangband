@@ -46,7 +46,10 @@ matrix:
           - tools
           - android-26
           - build-tools-28.0.2
+      install:
+        - echo y | sdkmanager "ndk-bundle"
       before_script:
+        - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
         - cd build/asgradle
         - wget https://libsdl.org/release/SDL2-2.0.10.tar.gz
         - tar -xzf SDL2-2.0.10.tar.gz
