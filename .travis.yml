@@ -37,27 +37,27 @@ matrix:
       env: CONFIGURE_FLAGS="--with-gcu --without-x11 --with-sdl    --without-sdl2" SDL="1"
     - os: osx
       env: CONFIGURE_FLAGS="--with-gcu --without-x11 --without-sdl --with-sdl2" SDL="2"
-   include:
-     - language: android
-       dist: trusty
-       jdk: oraclejdk8
-       android:
-         components:
-           - tools
-           - android-25
-           - build-tools-25.0.3
-       before_script:
-         - cd build/asgradle
-       script:
-         - ./gradlew build connectedCheck
-     - language: objective-c
-       os: osx
-       osx_image: xcode8.3
-       before_script:
-         - cd build/xcode-ios
-       script:
-         - xcodebuild -project mangclient-ios.xcodeproj
-           -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3' build
+  include:
+    - language: android
+      dist: trusty
+      jdk: oraclejdk8
+      android:
+        components:
+          - tools
+          - android-25
+          - build-tools-25.0.3
+      before_script:
+        - cd build/asgradle
+      script:
+        - ./gradlew build connectedCheck
+    - language: objective-c
+      os: osx
+      osx_image: xcode8.3
+      before_script:
+        - cd build/xcode-ios
+      script:
+        - xcodebuild -project mangclient-ios.xcodeproj
+          -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3' build
 addons:
   apt:
     packages:
