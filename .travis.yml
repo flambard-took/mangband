@@ -57,7 +57,7 @@ matrix:
         - mv SDL2-2.0.10 app/jni/SDL2
         - ln -s app/src/main/assets/lib ../../lib
       script:
-        - ./gradlew build connectedCheck
+        - ./gradlew build connectedCheck assembleDebug assembleRelease
     - language: objective-c
       os: osx
       osx_image: xcode8.3
