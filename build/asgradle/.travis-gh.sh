@@ -1,7 +1,7 @@
 #!/bin/sh
 
-CLIENT_D=build/asgradle/app/build/outputs/debug/mangclient-debug.apk
-CLIENT_R=build/asgradle/app/build/outputs/release/mangclient-release-unsigned.apk
+CLIENT_D=build/asgradle/mangclient/build/outputs/debug/mangclient-debug.apk
+CLIENT_R=build/asgradle/mangclient/build/outputs/release/mangclient-release-unsigned.apk
 
 CLIENT_D_NAME=$(basename ${CLIENT_D})
 CLIENT_R_NAME=$(basename ${CLIENT_R})
