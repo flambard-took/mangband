@@ -69,15 +69,17 @@ matrix:
     - language: objective-c
       os: osx
       osx_image: xcode8.3
+      env: BUILDING_FOR_IOS="YES" SDL="2"
       before_script:
         - cd build/xcode-ios
       script:
+        - xcodebuild -project mangclient-ios.xcodeproj -list
         - xcodebuild -project mangclient-ios.xcodeproj
           -scheme "libSDL-iOS" CONFIGURATION_BUILD_DIR="./build/Release-iphoneos"
         - xcodebuild -project mangclient-ios.xcodeproj
           -scheme "libSDL_ttf-iOS" CONFIGURATION_BUILD_DIR="./build/Release-iphoneos"
-        - xcodebuild -project mangclient-ios.xcodeproj
-          -destination 'Generic iOS Device' build
+        - xcodebuild -project mangclient-ios.xcodeproj build
+
 addons:
   apt:
     packages:
