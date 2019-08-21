@@ -612,7 +612,7 @@
 				PRODUCT_NAME = "mangclient-ios";
 				SYSTEM_HEADER_SEARCH_PATHS = "../../../SDL/include ../../../SDL2_ttf";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "../../../SDL2-2.0.10/include";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -637,7 +637,7 @@
 				PRODUCT_NAME = "mangclient-ios";
 				SYSTEM_HEADER_SEARCH_PATHS = "../../../SDL/include ../../../SDL2_ttf";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "../../../SDL2-2.0.10/include";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
