@@ -73,7 +73,11 @@ matrix:
         - cd build/xcode-ios
       script:
         - xcodebuild -project mangclient-ios.xcodeproj
-          -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3' build
+          -scheme "libSDL-iOS" CONFIGURATION_BUILD_DIR="./build/Release-iphoneos"
+        - xcodebuild -project mangclient-ios.xcodeproj
+          -scheme "libSDL_ttf-iOS" CONFIGURATION_BUILD_DIR="./build/Release-iphoneos"
+        - xcodebuild -project mangclient-ios.xcodeproj
+          -destination 'Generic iOS Device' build
 addons:
   apt:
     packages:
