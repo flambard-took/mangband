@@ -7,8 +7,9 @@ cat <<"HTML"
 <html>
 <title>MAngband Android builds</title>
 <head><meta charset="utf-8"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.3/qrcode.min.js"></script>
-<style>div.qr:nth-of-type(even) { text-align: right; }</style>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.3/qrcode.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/davidshimjs-qrcodejs@0.0.2/qrcode.min.js"></script>
+<style>div.qr:nth-of-type(even) { text-align: right; } img { display: inline !important; }</style>
 </head>
 <body onload="makecodes()">
 HTML
@@ -27,10 +28,14 @@ for (i = 0; i < os.length; i++) {
     var a = ls[i];
     var p = ps[i];
     var href = a.href;
-    alert(href);
-    var qr = qrcode(4, 'L');
-    qr.addData(href); qr.make();
-    p.innerHTML = qr.createImgTag(5);
+    var qr = new QRCode(p, {
+    text: href,
+    width: 128,
+    height: 128,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+    });
 }
 }
 </script>
