@@ -70,7 +70,7 @@ matrix:
 
     - language: objective-c
       os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.4
       compiler: ""
       env: BUILDING_FOR_IOS="YES" SDL="2s" # "2s" instead of "2" to skip homebrew
       before_script:
